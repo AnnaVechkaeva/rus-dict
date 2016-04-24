@@ -1,0 +1,92 @@
+<html>
+<head>
+<title>Словарь русского языка XI - XVII веков</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<script type="text/javascript">
+function openbox(id){
+    display = document.getElementById(id).style.display;
+    if(display=='none'){
+       document.getElementById(id).style.display='block';
+    }else{
+       document.getElementById(id).style.display='none';
+    }
+}
+
+
+</script>
+<style type="text/css">
+   button.new {
+    background: white;
+    border: 0px;
+	text-align: left;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	cursor:pointer;
+	font-size: 13pt;
+	font-style: italic;
+   }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+<div id="head">
+<table width="100%" id="id2">
+<tr>
+<td width="15%" style="vertical-align: top;">
+<center><a href="./"><img src="{{ url_for('static', filename='inter_logo.png') }}" width=100></a></center>
+</td>
+<td style="vertical-align: top; padding-top: 40px;">
+<font size=6,5>Словарь русского языка XI-XVII веков</font>
+<sub><i>Beta</i></sub>
+
+</td>
+<td style="vertical-align: top;">
+
+</td>
+</tr>
+</table>
+</div>
+<div id="menu">
+<a href="./dict"><font color="white">Поиск по словарю</font> </a> &nbsp; &nbsp;<a href="./source"><font color="white"> Поиск по списку источников </font></a>
+</div>
+<div id="main">
+{% for e in arr %}
+<div id="result">
+<span><a href="" onclick="
+obj=this.parentNode.childNodes[1].style; 
+tmp=(obj.display!='block') ? 'block' : 'none'; 
+obj.display=tmp; 
+return false;">
+ <div id="up"><b>{{ e[1] }}</b></div> </a><div style='display: none'>
+ {% if e[2] != 'NULL' %} <i> 
+ <form id="form_id" action="{{ url_for('link_part_of_speech') }}" method=POST style="margin:0;">
+<input type=hidden name = "part_of_speech" value={{ e[2] }}>
+<button type="submit" class="new">{{ e[2] }}.</button> 
+</form>
+ </i>{% endif %}
+{% if e[3] != 'NULL' %} <b> {{ e[3] }} </b> {% endif %}
+{% if e[4] != 'NULL' %} <i> {{ e[4] }} </i> {% endif %}
+{% if e[5] != 'NULL' %}  <b>  <form id="form_id" action="{{ url_for('link_word') }}" method=POST style="margin:0;">
+<input type=hidden name = "word" value={{ e[5] }}>
+<button type="submit" class="new"><i>см.</i> {{ e[5] }}.</button> 
+</form> </b> {% endif %}
+
+{% for n in e[6] %}
+
+<div id="meaning">
+
+<i>{{ n[1] }}</i>  
+{{ n[2] }} 
+</div>
+{% endfor %}
+
+</div></span>
+ </div>
+{% endfor %}
+</div>
+</div>
+<div id="footer">
+<br>
+<center>Контакты:<br>saverussianlang@gmail.com</center>
+</div>
+</body>
+</html>
